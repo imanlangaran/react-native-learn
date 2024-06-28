@@ -2,14 +2,14 @@ import { ScrollView, Text, View, Image } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { Link } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
-
+import CustomButton from "../components/CustomButton";
 import { images } from "../constants"
 
 export default function App() {
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView contentContainerStyle={{ height: '100%' }}>
-        <View className="w-full h-full items-center px-4 "> 
+        <View className="w-full h-full items-center px-4 ">
           {/* justify-center */}
           <Image
             source={images.logo}
@@ -17,7 +17,7 @@ export default function App() {
             resizeMode="contain"
           />
 
-          <Image 
+          <Image
             source={images.cards}
             className="max-x-[380px] w-full h-[300px]"
             resizeMode="contain"
@@ -28,18 +28,23 @@ export default function App() {
               Disscover Endless Possibilities with{' '}
               <Text className="text-secondary-200">Aora</Text>
             </Text>
-          </View>
 
-          <Image 
-            source={images.path}
-            className="w-[136px] h-[15px] absolute -bottom-2 -right-8"
-            resizeMode="contain"
-          />
+            <Image
+              source={images.path}
+              className="w-[136px] h-[15px] absolute -bottom-2 -right-8"
+              resizeMode="contain"
+            />
+          </View>
 
           <Text className="text-sm font-pregular text-gray-100 mt-7 text-center">
             Where Creativity Meets Innovation: Embark on a Journey of Limitless Exploration with Aora
           </Text>
 
+          <CustomButton
+            title="Continue with Email"
+            handlePress={() => { }}
+            containerStyles="w-full mt-7"
+          />
 
         </View>
       </ScrollView>
