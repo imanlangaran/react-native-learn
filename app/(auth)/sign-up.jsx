@@ -1,23 +1,43 @@
-import { View, Text, ScrollView, Image } from 'react-native'
+import { View, Text, ScrollView, Image, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { Link, router } from 'expo-router';
 
 import { images } from "../../constants";
 import FormField from '../../components/FormField';
 import CustomButton from '../../components/CustomButton'
-import { Link } from 'expo-router';
+
+import { createUser } from "../../lib/appwrite";
 
 const SignUp = () => {
 
-  const [form, setForm] = useState(
-    userName = "",
-    email = "",
-    password = ""
-  )
+  const [form, setForm] = useState({
+    userName: '',
+    email: '',
+    password: ''
+  })
 
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const submit = () => {
+  const submit = async () => {
+    if (!form.userName || !form.email || !form.password) {
+      Alert.alert('Error', 'Please fill all the fields!');
+      return
+    }
+    setIsSubmitting(true);
+
+    try {
+      const result = await createUser(form.email, form.password, form.userName);
+      // console.log('signup after create user');
+
+      // set it to global state using context ...
+
+      router.replace('/home')
+    } catch (error) {
+      Alert.alert('Error', error.message);
+    } finally {
+      setIsSubmitting(false);
+    }
 
   }
 
@@ -38,14 +58,14 @@ const SignUp = () => {
           <FormField
             title="Username"
             value={form.userName}
-            handleChange={(e) => setForm({ ...form, userName: e })}
+            handleChangeText={(e) => setForm({ ...form, userName: e })}
             otherStyles="mt-10"
           />
 
           <FormField
             title="Email"
             value={form.email}
-            handleChange={(e) => setForm({ ...form, email: e })}
+            handleChangeText={(e) => setForm({ ...form, email: e })}
             otherStyles="mt-7"
             keyboardType="email-address"
           />
@@ -53,7 +73,7 @@ const SignUp = () => {
           <FormField
             title="Password"
             value={form.password}
-            handleChange={(e) => setForm({ ...form, password: e })}
+            handleChangeText={(e) => setForm({ ...form, password: e })}
             otherStyles="mt-7"
           />
 
