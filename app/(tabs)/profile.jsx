@@ -4,13 +4,13 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 import SearchInput from "../../components/SearchInput";
 
-import { getUserPosts, searchPost } from "../../lib/appwrite";
+import { getUserPosts, searchPost, signOut } from "../../lib/appwrite";
 
 import EmptyState from '../../components/EmptyState';
 import useAppwrite from '../../lib/useAppwrite';
 import VideoCard from '../../components/VideoCard';
 import InfoBox from '../../components/InfoBox';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useGlobalContext } from '@/context/GlobalProvider';
 import { icons } from '@/constants';
 
@@ -23,8 +23,11 @@ const profile = () => {
 
   // console.log(posts);
 
-  const logout = () => {
-
+  const logout = async () => {
+    await signOut();
+    setUser(null);
+    setIsLoggedIn(false);
+    router.replace('/sign-in');
   }
 
   return (

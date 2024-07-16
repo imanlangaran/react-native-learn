@@ -7,8 +7,11 @@ import FormField from '../../components/FormField';
 import CustomButton from '../../components/CustomButton'
 import { Link } from 'expo-router';
 import { getCurrentUser, signIn } from '../../lib/appwrite';
+import { useGlobalContext } from '../../context/GlobalProvider';
 
 const SignIn = () => {
+
+  const { setUser , setIsLoggedIn } = useGlobalContext()
 
   const [form, setForm] = useState({
     email: '',
@@ -28,10 +31,10 @@ const SignIn = () => {
       await signIn(form.email, form.password);
 
       const result = await getCurrentUser();
-      setSourceMapRange(result);
+      setUser(result);
       setIsLoggedIn(true);
       
-      Alert.alert("Success", "User signned in successfully");
+      // Alert.alert("Success", "User signned in successfully");
       router.replace('/home');
     } catch (error) {
       Alert.alert('Error', error.message);
